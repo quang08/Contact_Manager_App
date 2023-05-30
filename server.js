@@ -5,6 +5,8 @@ const contactRoutes = require("./routes/contactRoutes");
 const port = process.env.PORT || 5000;
 const app = express();
 
+//built in body parser, or else req.body would be undefined
+app.use(express.json());
 //contact routers
 app.use("/api/contacts", contactRoutes);
 

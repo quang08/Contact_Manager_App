@@ -10,6 +10,7 @@ const getContact = (req, res) => {
 
 //POST requests if succeeded, return 201: new resources created
 const createContact = (req, res) => {
+  console.log(req.body);
   res.status(201).json({ message: "Created a contact" });
 };
 
