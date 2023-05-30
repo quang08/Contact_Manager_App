@@ -10,7 +10,11 @@ const getContact = (req, res) => {
 
 //POST requests if succeeded, return 201: new resources created
 const createContact = (req, res) => {
-  console.log(req.body);
+  const { name, email, number } = req.body;
+  if (!name || !email || number) {
+    res.status(400);
+    throw new Error("All fields are mandatory");
+  }
   res.status(201).json({ message: "Created a contact" });
 };
 
