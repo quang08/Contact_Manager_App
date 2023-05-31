@@ -16,7 +16,12 @@ const getContacts = asyncHandler(async (req, res) => {
 });
 
 const getContact = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Get a contact" });
+  const contact = await Contact.findById(req.params.id);
+  if (!contact) {
+    return res.status(404);
+    throw new Error("Contact not found");
+  }
+  res.status(200).json(contact);
 });
 
 //POST requests if succeeded, return 201: new resources created
