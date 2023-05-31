@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
 const contactRoutes = require("./routes/contactRoutes");
+const userRoutes = require("./routes/userRoutes");
 const errorHander = require("./middlewares/errorHandler");
 const connectDb = require("./config/dbConnection");
 
@@ -12,6 +13,7 @@ connectDb();
 app.use(express.json());
 //contact routers
 app.use("/api/contacts", contactRoutes);
+app.use("/api/users", userRoutes);
 //custom error handler middleware
 app.use(errorHander);
 
