@@ -1,16 +1,16 @@
 const express = require("express");
+const {
+  registerUser,
+  loginUser,
+  currentUser,
+} = require("../controllers/userControllers");
 const router = express.Router();
 
-router.post("/register", (req, res) => {
-  res.json({ message: "Registered an user" });
-});
+router.post("/register", registerUser);
 
-router.post("/login", (req, res) => {
-  res.json({ message: "Logged in an user" });
-});
+router.post("/login", loginUser);
 
-router.post("/current", (req, res) => {
-  res.json({ message: "Current user" });
-});
+//this would be a private route while the above would be public
+router.post("/current", currentUser);
 
 module.exports = router;
