@@ -59,20 +59,18 @@ const loginUser = asyncHandler(async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "2m" }
+      { expiresIn: "10m" }
     );
     res.status(200).json({ accessToken });
   } else {
     res.status(401);
     throw new Error("Email or Password not valid");
   }
-
-  res.json({ message: "Logged in an user" });
 });
 
 //this would be a private route while the above would be public
 const currentUser = asyncHandler(async (req, res) => {
-  res.json({ message: "Current user" });
+  res.json(req.user);
 });
 
 module.exports = { registerUser, loginUser, currentUser };
