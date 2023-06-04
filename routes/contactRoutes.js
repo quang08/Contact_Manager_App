@@ -7,6 +7,10 @@ const {
   updateContact,
   deleteContact,
 } = require("../controllers/contactControllers");
+const validateToken = require("../middlewares/validateToken");
+
+//use validate token middleware for Contact routes to be private
+router.use(validateToken);
 
 router.route("/").get(getContacts).post(createContact);
 
