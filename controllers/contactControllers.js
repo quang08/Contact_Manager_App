@@ -11,7 +11,7 @@ const asyncHandler = require("express-async-handler");
 const Contact = require("../models/contactModel");
 
 const getContacts = asyncHandler(async (req, res) => {
-  const contacts = await Contact.find({ user_id: req.user.id }); //fetch all the contacts of the logged in userd
+  const contacts = await Contact.find({ user_id: req.user.id }); //fetch all the contacts of the logged in user. Meaning each logged in user has different contacts to fetch
   res.status(200).json(contacts);
 });
 
@@ -50,6 +50,11 @@ const updateContact = asyncHandler(async (req, res) => {
     throw new Error("Contact not found");
   }
 
+  if (contact.user_id.toString() !== req.user.id) {
+    res.status(403);
+    throw new Error("User does not have permission");
+  }
+
   const updatedContact = await Contact.findByIdAndUpdate(
     req.params.id,
     req.body,
@@ -60,11 +65,16 @@ const updateContact = asyncHandler(async (req, res) => {
 
 //DELETE requests if succeeded, return 204: no content
 const deleteContact = asyncHandler(async (req, res) => {
-  const contact = await Contact.findByIdAndDelete(req.params.id);
+  const contact = await Contact.findById(req.params.id);
+  if (contact.user_id.toString() !== req.user.id) {
+    res.status(403);
+    throw new Error("User does not have permission");
+  }
   if (!contact) {
     res.status(404);
     throw new Error("Contact not found");
   }
+  await Contact.deleteOne({ _id: req.params.id });
   res.status(200).json(contact);
 });
 
