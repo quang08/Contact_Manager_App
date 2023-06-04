@@ -11,7 +11,7 @@ const asyncHandler = require("express-async-handler");
 const Contact = require("../models/contactModel");
 
 const getContacts = asyncHandler(async (req, res) => {
-  const contacts = await Contact.find();
+  const contacts = await Contact.find({ user_id: req.user.id }); //fetch all the contacts of the logged in userd
   res.status(200).json(contacts);
 });
 
@@ -37,6 +37,8 @@ const createContact = asyncHandler(async (req, res) => {
     name,
     email,
     phone,
+    user_id: req.user.id, //attach the id of the user who created the contact
+    //we got req.user property through the validateToken middleware where it decodes the JWT then add req.user = decode.user property
   });
   res.status(201).json(contact);
 });

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const contactSchema = mongoose.Schema(
   {
-    user: {
+    user_id: { //the user who created that schema
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
